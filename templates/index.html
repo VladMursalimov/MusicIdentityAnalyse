@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музыкальный психолог</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #8e44ad, #27ae60);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px 40px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 5px;
+        }
+        input {
+            background: #fff;
+            color: #000;
+        }
+        button {
+            background: #8e44ad;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #7a3c9f;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: justify;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Музыкальный психолог</h1>
+        <p>Узнайте о своей личности через любимые треки</p>
+        <input type="text" id="user-id" placeholder="Введите ID пользователя Яндекс.Музыки">
+        <button onclick="analyze()">Анализировать</button>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        async function analyze() {
+            const userId = document.getElementById('user-id').value;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Идет анализ...</p>';
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ user_id: userId })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    resultDiv.innerHTML = `<p style="color: red;">Ошибка: ${error.error}</p>`;
+                    return;
+                }
+
+                const data = await response.json();
+                let resultHtml = '<h3>Ваши любимые треки:</h3>';
+                data.tracks.forEach(track => {
+                    resultHtml += `<p>${track.track} — ${track.artist}</p>`;
+                    if (track.lyrics !== "Текст не найден") {
+                        resultHtml += `<p style="font-size: 12px; color: gray;">${track.lyrics.slice(0, 200)}...</p>`;
+                    }
+                });
+
+                // Преобразуем Markdown в HTML вручную
+                resultHtml += '<h3>Анализ личности:</h3>';
+                resultHtml += convertMarkdownToHTML(data.analysis.join('\n\n'));
+
+                resultDiv.innerHTML = resultHtml;
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Ошибка: ${error.message}</p>`;
+            }
+        }
+
+        // Функция для преобразования Markdown в HTML
+        function convertMarkdownToHTML(text) {
+            // Заменяем **жирный текст** на <strong>
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Заменяем *курсив* на <em>
+            text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            // Заменяем заголовки # на <h4>
+            text = text.replace(/^# (.*)/gm, '<h4>$1</h4>');
+            // Разделяем абзацы по двум переносам строки
+            text = text.replace(/\n\n/g, '</p><p>');
+            // Добавляем теги <p> вокруг текста
+            text = `<p>${text}</p>`;
+
+            return text;
+        }
+    </script>
+</body>
+</html>
