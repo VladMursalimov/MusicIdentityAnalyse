@@ -2,7 +2,7 @@ import asyncio
 import os
 import random
 from openai import OpenAI
-from music import getUserLikedTracks
+from default.music import getUserLikedTracks
 import lyricsgenius
 from dotenv import load_dotenv
 import re

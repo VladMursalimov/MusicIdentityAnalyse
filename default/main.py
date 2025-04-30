@@ -1,5 +1,3 @@
-import asyncio
-
 from flask import Flask, request, jsonify, render_template, Response
 import apirequests
 
