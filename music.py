@@ -3,8 +3,9 @@ from yandex_music import Client
 def getUserLikedTracks(user_id):
     """Возвращает список всех любимых треков пользователя в формате [(трек, исполнитель), ...]"""
     client = Client().init()
-    playlist = client.users_playlists("3", user_id)  # "3" — это идентификатор плейлиста "Мне нравится"
+    playlist = client.users_playlists("3", user_id)
     tracks = playlist.fetchTracks()
+    tracks = tracks[:min(50, len(tracks))]
 
     liked_tracks = []
 
@@ -17,4 +18,3 @@ def getUserLikedTracks(user_id):
             continue
 
     return liked_tracks
-

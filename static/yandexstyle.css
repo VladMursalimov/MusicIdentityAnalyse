@@ -1,0 +1,260 @@
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      overflow-y: auto; /* Включаем вертикальный скролл */
+      background-color: #121212; /* Темный фон для страницы */
+      color: white;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      color: white;
+      font-size: 2.5rem; /* Уменьшен для мобильных */
+      margin-bottom: 20px;
+    }
+
+    .favorite-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 30px; /* Увеличен для удобства нажатия */
+      border-radius: 50px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1.2rem; /* Увеличен для мобильных */
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.5); /* Добавляем светлую границу */
+      width: 100%; /* Кнопка занимает всю ширину на мобильных */
+      max-width: 400px; /* Ограничение для больших экранов */
+    }
+
+    .favorite-button:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .search-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 15px; /* Увеличен для удобства ввода */
+      border: 0px solid #fff;
+      border-radius: 50px;
+      font-size: 1.1rem; /* Увеличен для мобильных */
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      background-color: transparent;
+      outline: none;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
+
+    .search-input:focus::placeholder {
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    /* Стиль для бокса с анализом */
+    .analysis-box {
+      background-color: rgba(26, 26, 26, 0.4); /* Темно-серый фон */
+      color: white;
+      font-family: 'Arial', sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      padding: 20px;
+      border-radius: 15px; /* Округленные края */
+      max-width: 700px;
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      animation: fadeIn 0.5s ease-in-out forwards; /* Плавное появление */
+      text-align: left;
+    }
+
+    /* Анимация появления */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Медиа-запросы для мобильных устройств */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .favorite-button {
+        font-size: 1rem;
+        padding: 12px 25px;
+      }
+
+      .search-input {
+        font-size: 1rem;
+        padding: 12px;
+      }
+
+      .analysis-box {
+        font-size: 0.9rem;
+        padding: 15px;
+      }
+    }
+
+    /* Медиа-запросы для очень маленьких экранов */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .favorite-button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+      }
+
+      .search-input {
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+
+      .analysis-box {
+        font-size: 0.8rem;
+        padding: 10px;
+      }
+    }
+    .results-container {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+      margin: 20px auto;
+    }
+
+    .track-container {
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      width: 40%;
+      min-width: 300px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease-out forwards;
+      animation-delay: 0.3s;
+    }
+
+    .analysis-box {
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      padding: 20px;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      width: 60%;
+      min-width: 400px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease-out forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .track-header {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    .track-item {
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .track-title {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .track-artist {
+      font-size: 16px;
+      opacity: 0.8;
+    }
+
+    .track-separator {
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.2);
+      margin: 10px 0;
+    }
+
+    .progress-container {
+      width: 200px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .progress-bar {
+      height: 10px;
+      border-radius: 5px;
+      background-color: #ffcc00;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-tt {
+      color: white;
+      text-align: center;
+      margin-top: 5px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .results-container {
+        flex-direction: column;
+      }
+
+      .track-container,
+      .analysis-box {
+        width: 100%;
+      }
+    }
