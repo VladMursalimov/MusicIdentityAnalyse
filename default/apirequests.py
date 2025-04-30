@@ -85,7 +85,7 @@ def generate_analysis(tracks_data):
     :return: Генератор текста анализа
     """
     stream = openai_client.chat.completions.create(
-        model="tngtech/deepseek-r1t-chimera:free",
+        model="qwen/qwen3-8b:free",
         messages=[
             {
                 "role": "user",
